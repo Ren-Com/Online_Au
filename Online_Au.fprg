@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="Online_Au"/>
+        <attribute name="authors" value="ACER"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-11-29 02:12:55 PM"/>
+        <attribute name="created" value="QUNFUjtERVNLVE9QLU1UVkIwMFQ7MjAyNS0xMS0yOTsxMjo1MDowOSBBTTsyNjI3"/>
+        <attribute name="edited" value="QUNFUjtERVNLVE9QLU1UVkIwMFQ7MjAyNS0xMS0yOTswMjoxMjo1NSBQTTs0OzI3NTE="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="haveAccount" type="Boolean" array="False" size=""/>
+            <declare name="UserNameAccount" type="String" array="False" size=""/>
+            <output expression="&quot;Hi, welcome to Online Au&quot;" newline="True"/>
+            <output expression="&quot;Do you have an account? TRUE/FALSE&quot;" newline="True"/>
+            <input variable="haveAccount"/>
+            <if expression="haveAccount == TRUE">
+                <then>
+                    <assign variable="UserNameAccount" expression="SignIn()"/>
+                    <output expression="&quot;Welcome back &quot;" newline="False"/>
+                    <output expression="UserNameAccount" newline="True"/>
+                </then>
+                <else>
+                    <assign variable="UserNameAccount" expression="SignUp()"/>
+                    <output expression="&quot;Hi &quot;" newline="False"/>
+                    <output expression="UserNameAccount" newline="False"/>
+                    <output expression="&quot;, Welcome to our System&quot;" newline="True"/>
+                </else>
+            </if>
+            <call expression="MainPage"/>
+        </body>
+    </function>
+    <function name="BUY" type="None" variable="">
+        <parameters/>
+        <body>
+            <comment text="BUY | Variable declaration"/>
+            <declare name="choice" type="Integer" array="False" size=""/>
+            <declare name="userBuy, userBalance, userGold" type="Real" array="False" size=""/>
+            <output expression="&quot;How you want to buy?&quot;" newline="True"/>
+            <output expression="&quot;1. Buy in IDR&quot;" newline="True"/>
+            <output expression="&quot;2. Buy in Gold&quot;" newline="True"/>
+            <input variable="choice"/>
+            <if expression="choice == 2">
+                <then>
+                    <output expression="&quot;How much you want to buy in grams?&quot;" newline="True"/>
+                    <input variable="userBuy"/>
+                    <if expression="userBuy &gt; 0">
+                        <then>
+                            <call expression="BuyProcessGold(userBuy)"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;You can't bought less then 0.0001 grams &quot;" newline="True"/>
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <output expression="&quot;How much you want to buy in IDR?&quot;" newline="True"/>
+                    <input variable="userBuy"/>
+                    <if expression="userBuy &gt; 0">
+                        <then>
+                            <call expression="BuyProcessIDR(userBuy)"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;You can't bought less then Rp.1&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="BuyProcessGold" type="None" variable="">
+        <parameters>
+            <parameter name="userBuy" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="userBalance, userGold" type="Real" array="False" size=""/>
+            <assign variable="userBalance" expression="dummyBalance()"/>
+            <assign variable="userBalance" expression="userBalance+(GoldCurrentPrice()*userBuy)"/>
+            <assign variable="userGold" expression="userBalance/GoldCurrentPrice()"/>
+            <output expression="&quot;You just bought: &quot;" newline="False"/>
+            <output expression="userBuy" newline="False"/>
+            <output expression="&quot; grams&quot;" newline="True"/>
+            <output expression="&quot;Now you have: &quot;" newline="False"/>
+            <output expression="userGold" newline="False"/>
+            <output expression="&quot; grams or Rp.&quot;" newline="False"/>
+            <output expression="userBalance" newline="True"/>
+        </body>
+    </function>
+    <function name="BuyProcessIDR" type="None" variable="">
+        <parameters>
+            <parameter name="userBuy" type="Real" array="False"/>
+        </parameters>
+        <body>
+            <declare name="userBalance, userGold" type="Real" array="False" size=""/>
+            <assign variable="userBalance" expression="dummyBalance()"/>
+            <assign variable="userBalance" expression="userBalance+userBuy"/>
+            <assign variable="userGold" expression="userBalance/GoldCurrentPrice()"/>
+            <output expression="&quot;You just bought: Rp.&quot;" newline="False"/>
+            <output expression="userBuy" newline="True"/>
+            <output expression="&quot;Now you have: &quot;" newline="False"/>
+            <output expression="&quot;Rp.&quot;" newline="False"/>
+            <output expression="userBalance" newline="False"/>
+            <output expression="&quot; or &quot;" newline="False"/>
+            <output expression="userGold" newline="False"/>
+            <output expression="&quot; grams&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="CheckChoice" type="Integer" variable="userChoice">
+        <parameters/>
+        <body>
+            <declare name="choice, userChoice" type="Integer" array="False" size=""/>
+            <output expression="&quot;What do you want to do?&quot;" newline="True"/>
+            <input variable="choice"/>
+            <call expression="userChoiceMenu"/>
+            <while expression="choice &gt;5  OR choice &lt;1">
+                <output expression="&quot;Please choose based on the menu&quot;" newline="True"/>
+                <call expression="userChoiceMenu"/>
+                <input variable="choice"/>
+            </while>
+            <assign variable="userChoice" expression="choice"/>
+        </body>
+    </function>
+    <function name="DEPOSIT" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="balance" type="Real" array="False" size=""/>
+            <output expression="&quot;How much you want to deposit?&quot;" newline="True"/>
+            <input variable="balance"/>
+            <if expression="balance &gt; 0">
+                <then>
+                    <assign variable="balance" expression="DummyBalance()+ balance"/>
+                    <output expression="&quot;Your balance now is: &quot;" newline="False"/>
+                    <output expression="balance" newline="True"/>
+                </then>
+                <else>
+                    <output expression="&quot;Minimum deposit is Rp.1&quot;" newline="True"/>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="DummyBalance" type="Real" variable="dummyBalance">
+        <parameters/>
+        <body>
+            <declare name="dummyBalance" type="Integer" array="False" size=""/>
+            <assign variable="dummyBalance" expression="20000000"/>
+        </body>
+    </function>
+    <function name="DummyName" type="String" variable="dummyName">
+        <parameters/>
+        <body>
+            <declare name="dummyName" type="String" array="False" size=""/>
+            <assign variable="dummyName" expression="&quot;Alfath&quot;"/>
+        </body>
+    </function>
+    <function name="DummyPassword" type="String" variable="dummyPassword">
+        <parameters/>
+        <body>
+            <declare name="dummyPassword" type="String" array="False" size=""/>
+            <assign variable="dummyPassword" expression="&quot;1234567890&quot;"/>
+        </body>
+    </function>
+    <function name="DummyUserName" type="String" variable="dummyUserName">
+        <parameters/>
+        <body>
+            <declare name="dummyUserName" type="String" array="False" size=""/>
+            <assign variable="dummyUserName" expression="&quot;Ren&quot;"/>
+        </body>
+    </function>
+    <function name="GoldCurrentPrice" type="Real" variable="goldInEachGram">
+        <parameters/>
+        <body>
+            <declare name="goldInEachGram" type="Real" array="False" size=""/>
+            <assign variable="goldInEachGram" expression="2413000"/>
+        </body>
+    </function>
+    <function name="MainPage" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="balance, choice" type="Integer" array="False" size=""/>
+            <output expression="&quot;Your current balance now is: &quot;" newline="True"/>
+            <assign variable="balance" expression="DummyBalance()"/>
+            <output expression="balance" newline="True"/>
+            <assign variable="choice" expression="CheckChoice()"/>
+            <call expression="process(choice)"/>
+        </body>
+    </function>
+    <function name="Process" type="None" variable="">
+        <parameters>
+            <parameter name="choice" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <if expression="choice == 1">
+                <then>
+                    <call expression="BUY"/>
+                </then>
+                <else>
+                    <if expression="choice == 2">
+                        <then>
+                            <call expression="SELL"/>
+                        </then>
+                        <else>
+                            <if expression="choice == 3">
+                                <then>
+                                    <call expression="DEPOSIT"/>
+                                </then>
+                                <else>
+                                    <if expression="choice == 4">
+                                        <then>
+                                            <call expression="WITHDRAW"/>
+                                        </then>
+                                        <else>
+                                            <output expression="&quot;Exit&quot;" newline="True"/>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="SELL" type="None" variable="">
+        <parameters/>
+        <body>
+            <comment text="SELL| Variable declaration"/>
+            <declare name="choice" type="Integer" array="False" size=""/>
+            <declare name="userSell, userBalance, goldToIDR, userGold" type="Real" array="False" size=""/>
+            <output expression="&quot;How you want to sell?&quot;" newline="True"/>
+            <output expression="&quot;1. Sell in Au&quot;" newline="True"/>
+            <output expression="&quot;2. Sell in fiat&quot;" newline="True"/>
+            <input variable="choice"/>
+            <if expression="choice == 1">
+                <then>
+                    <output expression="&quot;How much you want to sell in grams?&quot;" newline="True"/>
+                    <input variable="userSell"/>
+                    <if expression="DummyBalance() &gt; (GoldCurrentPrice()*userSell)">
+                        <then>
+                            <if expression="userSell &gt; 0">
+                                <then>
+                                    <call expression="SellProcessGold(userSell)"/>
+                                </then>
+                                <else>
+                                    <output expression="&quot;You can't sell less then 0.0001 grams &quot;" newline="True"/>
+                                </else>
+                            </if>
+                        </then>
+                        <else>
+                            <output expression="&quot;Insuficiant saldo, can't process current request&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <output expression="&quot;How much you want to sell in IDR?&quot;" newline="True"/>
+                    <input variable="userSell"/>
+                    <if expression="DummyBalance() &gt; userSell">
+                        <then>
+                            <if expression="userSell &gt; 0">
+                                <then/>
+                                <else>
+                                    <output expression="&quot;You can't sell less then Rp.1&quot;" newline="True"/>
+                                </else>
+                            </if>
+                        </then>
+                        <else>
+                            <output expression="&quot;Insuficiant saldo, can't process current request&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="SellProcessGold" type="None" variable="">
+        <parameters>
+            <parameter name="userSell" type="Real" array="False"/>
+        </parameters>
+        <body>
+            <declare name="userBalance, userGold" type="Real" array="False" size=""/>
+            <comment text="Selling Process"/>
+            <assign variable="userBalance" expression="dummyBalance()"/>
+            <assign variable="userBalance" expression="userBalance-(GoldCurrentPrice()*userSell)"/>
+            <assign variable="userGold" expression="userBalance/GoldCurrentPrice()"/>
+            <comment text="Selling output"/>
+            <output expression="&quot;You just sell: &quot;" newline="False"/>
+            <output expression="userSell" newline="False"/>
+            <output expression="&quot; grams&quot;" newline="True"/>
+            <output expression="&quot;Now you have: &quot;" newline="False"/>
+            <output expression="userGold" newline="False"/>
+            <output expression="&quot; grams or Rp.&quot;" newline="False"/>
+            <output expression="userBalance" newline="True"/>
+        </body>
+    </function>
+    <function name="SellProcessIDR" type="None" variable="">
+        <parameters>
+            <parameter name="userSell" type="Real" array="False"/>
+        </parameters>
+        <body>
+            <declare name="userBalance, userGold" type="Real" array="False" size=""/>
+            <comment text="Selling Process"/>
+            <assign variable="userBalance" expression="dummyBalance()"/>
+            <assign variable="userBalance" expression="userBalance-userSell"/>
+            <assign variable="userGold" expression="userBalance/GoldCurrentPrice()"/>
+            <comment text="Selling output"/>
+            <output expression="&quot;You just sell: Rp.&quot;" newline="False"/>
+            <output expression="userSell" newline="True"/>
+            <output expression="&quot;Now you have: &quot;" newline="False"/>
+            <output expression="&quot;Rp.&quot;" newline="False"/>
+            <output expression="userBalance" newline="False"/>
+            <output expression="&quot; or &quot;" newline="False"/>
+            <output expression="userGold" newline="False"/>
+            <output expression="&quot; grams&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="SignIn" type="String" variable="userNameAccount">
+        <parameters/>
+        <body>
+            <comment text="Existing account"/>
+            <declare name="dummyName, dummyUserName, dummyPassword, userNameAccount" type="String" array="False" size=""/>
+            <assign variable="dummyName" expression="DummyName()"/>
+            <assign variable="dummyUserName" expression="DummyUserName()"/>
+            <assign variable="dummyPassword" expression="DummyPassword()"/>
+            <comment text="Declaring input Variable"/>
+            <declare name="name, email, userName, password" type="String" array="False" size=""/>
+            <comment text="User inputing his/her account"/>
+            <output expression="&quot;Input name&quot;" newline="True"/>
+            <input variable="name"/>
+            <output expression="&quot;Input user name&quot;" newline="True"/>
+            <input variable="userName"/>
+            <output expression="&quot;Input password&quot;" newline="True"/>
+            <input variable="password"/>
+            <comment text="Checking account"/>
+            <while expression="name != dummyName  OR userName != dummyUserName OR password != dummyPassword">
+                <while expression="name != dummyName">
+                    <output expression="&quot;Your name is wrong, input it again: &quot;" newline="True"/>
+                    <input variable="name"/>
+                </while>
+                <while expression="userName != dummyUserName">
+                    <output expression="&quot;Your username is wrong, input it again: &quot;" newline="True"/>
+                    <input variable="userName"/>
+                </while>
+                <while expression="password != dummyPassword">
+                    <output expression="&quot;Your password is wrong, input it again: &quot;" newline="True"/>
+                    <input variable="password"/>
+                </while>
+            </while>
+            <assign variable="userNameAccount" expression="userName"/>
+        </body>
+    </function>
+    <function name="SignUp" type="String" variable="userNameAccount">
+        <parameters/>
+        <body>
+            <declare name="name, email, userName, password1, password2, userNameAccount" type="String" array="False" size=""/>
+            <output expression="&quot;Lets make an account&quot;" newline="True"/>
+            <output expression="&quot;What is your name?: &quot;" newline="False"/>
+            <input variable="name"/>
+            <output expression="&quot;Make your username: &quot;" newline="False"/>
+            <input variable="userName"/>
+            <output expression="&quot;What is your email?: &quot;" newline="False"/>
+            <input variable="email"/>
+            <output expression="&quot;Write your password here: &quot;" newline="False"/>
+            <input variable="password1"/>
+            <output expression="&quot;Confirm your password: &quot;" newline="False"/>
+            <input variable="password2"/>
+            <while expression="password1 != password2">
+                <output expression="&quot;Your password is not same, write your password again: &quot;" newline="False"/>
+                <input variable="password1"/>
+                <output expression="&quot;Confirm your password: &quot;" newline="False"/>
+                <input variable="password2"/>
+            </while>
+            <assign variable="userNameAccount" expression="userName"/>
+        </body>
+    </function>
+    <function name="userChoiceMenu" type="None" variable="">
+        <parameters/>
+        <body>
+            <output expression="&quot;1. BUY&quot;" newline="True"/>
+            <output expression="&quot;2. SELL&quot;" newline="True"/>
+            <output expression="&quot;3. Deposit&quot;" newline="True"/>
+            <output expression="&quot;4. Withdraw&quot;" newline="True"/>
+            <output expression="&quot;5. Exit&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="WITHDRAW" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="balance" type="Real" array="False" size=""/>
+            <output expression="&quot;Your current balance is: &quot;" newline="False"/>
+            <output expression="DummyBalance()" newline="True"/>
+            <output expression="&quot;How much you want to withdraw?&quot;" newline="True"/>
+            <input variable="balance"/>
+            <if expression="DummyBalance()&lt;balance">
+                <then>
+                    <output expression="&quot;Insuficiant saldo, can't process current request&quot;" newline="True"/>
+                </then>
+                <else>
+                    <if expression="balance &gt; 0">
+                        <then>
+                            <assign variable="balance" expression="DummyBalance() - balance"/>
+                            <output expression="&quot;Your balance now is: &quot;" newline="False"/>
+                            <output expression="balance" newline="True"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;Minimum withdraw is Rp.1&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>

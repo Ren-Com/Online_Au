@@ -112,9 +112,9 @@
         <body>
             <declare name="choice, userChoice" type="Integer" array="False" size=""/>
             <output expression="&quot;What do you want to do?&quot;" newline="True"/>
-            <assign variable="userChoice" expression="choice"/>
-            <input variable="choice"/>
             <call expression="userChoiceMenu"/>
+            <input variable="choice"/>
+            <assign variable="userChoice" expression="choice"/>
             <while expression="choice &gt;5  OR choice &lt;1">
                 <output expression="&quot;Please choose based on the menu&quot;" newline="True"/>
                 <call expression="userChoiceMenu"/>

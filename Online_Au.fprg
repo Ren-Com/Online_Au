@@ -112,6 +112,7 @@
         <body>
             <declare name="choice, userChoice" type="Integer" array="False" size=""/>
             <output expression="&quot;What do you want to do?&quot;" newline="True"/>
+            <assign variable="userChoice" expression="choice"/>
             <input variable="choice"/>
             <call expression="userChoiceMenu"/>
             <while expression="choice &gt;5  OR choice &lt;1">
@@ -119,7 +120,6 @@
                 <call expression="userChoiceMenu"/>
                 <input variable="choice"/>
             </while>
-            <assign variable="userChoice" expression="choice"/>
         </body>
     </function>
     <function name="DEPOSIT" type="None" variable="">

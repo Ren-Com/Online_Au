@@ -131,7 +131,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(BuySellPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         BalancePanel.setPreferredSize(new java.awt.Dimension(960, 270));
